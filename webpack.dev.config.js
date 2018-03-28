@@ -55,7 +55,7 @@ const commonRules = [
   {
     test: /\.js$/,
     exclude: /node_modules/,
-    use: [threadLoader, babelLoader]
+    use: isAOT ? [babelLoader] : [threadLoader, babelLoader]
   },
   {
     test: /\.html$/,
@@ -71,7 +71,7 @@ const commonPlugins = [
   new webpack.HotModuleReplacementPlugin(),
   new webpack.ContextReplacementPlugin(
     /@angular(\\|\/)core(\\|\/)esm5/,
-    SRC,
+    SRC
   ),
 ];
 const tsRulesMap = {
@@ -142,7 +142,7 @@ module.exports = {
   devServer: {
     contentBase: DIST,
     port: 9000,
-    hot: true,
+    hot: !isAOT,
     inline: true,
     compress: true
   }
